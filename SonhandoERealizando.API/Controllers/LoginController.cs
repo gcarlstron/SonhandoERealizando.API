@@ -9,16 +9,14 @@ namespace SonhandoERealizando.API.Controllers;
 public class LoginController : ControllerBase
 {
     [HttpPost]
-    public IActionResult Login([FromBody] LoginDto loginDto)
+    public IActionResult Login([FromBody] LoginDto login)
     {
-        // Simulação de validação de usuário e senha
-        var validUser = loginDto.Username == "admin" && VerifyPassword(loginDto.Password, "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
+        var validUser = login.Username == "admin" && VerifyPassword(login.Password, "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=");
 
         if (!validUser)
             return Unauthorized("Usuário ou senha inválidos.");
 
-        // Gerar o hash de autenticação básica
-        var basicAuthHash = GenerateBasicAuthHash(loginDto.Username, loginDto.Password);
+        var basicAuthHash = GenerateBasicAuthHash(login.Username, login.Password);
 
         return Ok(new { Message = "Login realizado com sucesso.", BasicAuthHash = basicAuthHash });
     }
