@@ -15,8 +15,8 @@ public class ClientesController(IClientService clientService) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get() => Ok(await clientService.GetAllAsync());
 
-    [AllowAnonymous]
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Post([FromBody] ClientDto clientDto)
     {
         var client = await clientService.CreateAsync(clientDto);
