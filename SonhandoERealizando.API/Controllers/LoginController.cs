@@ -17,7 +17,10 @@ public class LoginController : ControllerBase
         if (!validUser)
             return Unauthorized("Usuário ou senha inválidos.");
 
-        return Ok("Login realizado com sucesso.");
+        // Gerar o hash de autenticação básica
+        var basicAuthHash = GenerateBasicAuthHash(loginDto.Username, loginDto.Password);
+
+        return Ok(new { Message = "Login realizado com sucesso.", BasicAuthHash = basicAuthHash });
     }
 
     private bool VerifyPassword(string password, string hashedPassword)
@@ -25,6 +28,13 @@ public class LoginController : ControllerBase
         using var sha256 = SHA256.Create();
         var hashedInput = Convert.ToBase64String(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
         return hashedInput == hashedPassword;
+    }
+
+    private string GenerateBasicAuthHash(string username, string password)
+    {
+        var credentials = $"{username}:{password}";
+        var bytes = Encoding.UTF8.GetBytes(credentials);
+        return Convert.ToBase64String(bytes);
     }
 }
 
