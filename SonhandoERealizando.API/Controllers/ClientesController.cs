@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SonhandoERealizando.Application.Services;
 using SonhandoERealizando.Application.Services.Interfaces;
@@ -7,12 +8,14 @@ namespace SonhandoERealizando.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ClientesController(IClientService clientService) : ControllerBase
 {
 
     [HttpGet]
     public async Task<IActionResult> Get() => Ok(await clientService.GetAllAsync());
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] ClientDto clientDto)
     {

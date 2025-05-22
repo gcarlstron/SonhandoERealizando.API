@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SonhandoERealizando.Application.Services;
 using SonhandoERealizando.Application.Services.Interfaces;
@@ -6,8 +7,10 @@ namespace SonhandoERealizando.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ServicesController(IServiceService serviceService) : ControllerBase
 {
+     [AllowAnonymous]
      [HttpGet]
      public async Task<IActionResult> Get() => Ok(await serviceService.GetAllAsync());
 
